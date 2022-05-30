@@ -1,3 +1,5 @@
+import chalk from 'chalk';
+
 class Mino {
 	constructor(name, pattern) {
 		this.name = name;
@@ -20,17 +22,17 @@ class Mino {
 	}
 }
 
-const Tetromino = {
-	I: new Mino("I", [[-1, 0], [0, 0], [1, 0], [2, 0]]),
-	J: new Mino("J", [[-1, 1], [-1, 0], [0, 0], [1, 0]]),
-	L: new Mino("L", [[-1, 0], [0, 0], [1, 0], [1, 1]]),
-	O: new Mino("O", [[0, 0], [0, 1], [1, 1], [1, 0]]),
-	S: new Mino("S", [[-1, 0], [0, 0], [0, 1], [1, 1]]),
-	Z: new Mino("Z", [[-1, 1], [0, 1], [0, 0], [1, 0]]),
-	T: new Mino("T", [[-1, 0], [0, 0], [0, 1], [1, 0]]),
+export const Tetromino = {
+	I: new Mino(chalk.cyanBright('■'), [[-1, 0], [0, 0], [1, 0], [2, 0]]),
+	J: new Mino(chalk.blueBright('■'), [[-1, 1], [-1, 0], [0, 0], [1, 0]]),
+	L: new Mino(chalk.red('■'), [[-1, 0], [0, 0], [1, 0], [1, 1]]),
+	O: new Mino(chalk.yellow('■'), [[0, 0], [0, 1], [1, 1], [1, 0]]),
+	S: new Mino(chalk.green('■'), [[-1, 0], [0, 0], [0, 1], [1, 1]]),
+	Z: new Mino(chalk.redBright('■'), [[-1, 1], [0, 1], [0, 0], [1, 0]]),
+	T: new Mino(chalk.magenta('■'), [[-1, 0], [0, 0], [0, 1], [1, 0]]),
 };
 
-class Frame {
+export class Frame {
 	constructor(height) {
 		this.width = 10;
 		this.height = height;
@@ -39,7 +41,7 @@ class Frame {
 
 		for (let h = 0; h < this.height; h++) {
 			for (let w = 0; w < this.width; w++) {
-				this.field[h][w] = '_';
+				this.field[h][w] = '■';
 			}
 		}
 	}
@@ -57,7 +59,7 @@ class Frame {
 
 	printFrame() {
 		for (let h = this.height - 1; h >= 0; h--) {
-			let line = "";
+			let line = '';
 			for (let w = 0; w < this.width; w++) {
 				line += this.field[h][w];
 			}
@@ -65,6 +67,3 @@ class Frame {
 		}
 	}
 }
-
-exports.Tetromino = Tetromino;
-exports.Frame = Frame;
