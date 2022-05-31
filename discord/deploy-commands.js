@@ -1,16 +1,23 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { clientId, guildId, token } = require('../config.json');
+import fs from 'node:fs';
+import path from 'node:path';
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v9';
+import { readFile } from 'node:fs/promises';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+const { clientId, guildId, token } = JSON.parse(
+	await readFile(
+		new URL('../config.json', import.meta.url)
+	)
+);
 
 const commands = [];
-const commandsPath = path.join(__dirname, 'commands');
+const commandsPath = path.join(fileURLToPath(path.dirname(import.meta.url)), 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('js'));
 
 for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
-	const command = require(filePath);
+	const filePath = pathToFileURL(path.join(commandsPath, file));
+	const command = (await import(filePath)).default;
 	commands.push(command.data.toJSON());
 }
 

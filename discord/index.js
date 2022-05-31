@@ -1,8 +1,14 @@
 import fs from 'fs';
 import path from 'path';
+import { readFile } from 'fs/promises';
 import { fileURLToPath, pathToFileURL } from 'url';
 import { Client, Collection, Intents } from 'discord.js';
-import config from '../config.json' assert { type: 'json' };
+
+const { clientId, guildId, token } = JSON.parse(
+	await readFile(
+		new URL('../config.json', import.meta.url)
+	)
+);
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.commands = new Collection();
@@ -34,4 +40,4 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
-client.login(config.token);
+client.login(token);
